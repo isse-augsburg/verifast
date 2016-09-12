@@ -2026,7 +2026,15 @@ module VerifyExpr(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
       check_correct h None None [] args (lm, [], rt, xmap, [], pre, post, Some epost, terminates, v) is_upcall (Some supercn) cont
     | WFunCall (l, g, targs, es) ->
       let FuncInfo (funenv, fterm, lg, k, tparams, tr, ps, nonghost_callers_only, pre, pre_tenv, post, terminates, functype_opt, body, fbf, v) = List.assoc g funcmap in
-      if not (startswith g "vf__") then has_heap_effects ();
+      let pretrue = match pre with
+          ExprAsn (_, True(_)) -> true
+        | _ -> false
+      in
+      let posttrue = match post with
+          ExprAsn (_, True(_)) -> true
+        | _ -> false
+      in
+      if not (pretrue && posttrue) then has_heap_effects ();
       if body = None then register_prototype_used lg g fterm;
       if pure && k = Regular then static_error l "Cannot call regular functions in a pure context." None;
       if not pure && is_lemma k then static_error l "Cannot call lemma functions in a non-pure context." None;
