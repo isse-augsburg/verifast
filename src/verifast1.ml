@@ -3925,7 +3925,8 @@ module VerifyProgram1(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
   let _, ushort_pred_symb, _, ushorts_pred_symb, _, malloc_block_ushorts_pred_symb as ushort_pointee_tuple = pointee_tuple "u_short_integer" "ushorts"
   let _, char_pred_symb, _, chars_pred_symb, _, malloc_block_chars_pred_symb as char_pointee_tuple = pointee_tuple "character" "chars"
   let _, uchar_pred_symb, _, uchars_pred_symb, _, malloc_block_uchars_pred_symb as uchar_pointee_tuple = pointee_tuple "u_character" "uchars"
-  
+  let _, bool_pred_symb, _, bools_pred_symb, _, malloc_block_bools_pred_symb as bool_pointee_tuple = pointee_tuple "boolean" "bools"
+
   let deref_pointee_tuple (cn, csym, an, asym, mban, mbasym) = (cn, csym(), an, asym(), mban, mbasym())
   
   let try_pointee_pred_symb0 pointeeType =
@@ -4436,6 +4437,10 @@ module VerifyProgram1(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
                 | Int (Unsigned, 0) ->
                   let pref = new predref "u_character" in
                   pref#set_domain [PtrType (Int (Unsigned, 1)); Int (Unsigned, 1)];
+                  [predinst pref]
+                | Bool ->
+                  let pref = new predref "boolean" in
+                  pref#set_domain [PtrType Bool; Bool];
                   [predinst pref]
                 | _ -> []
                 end
