@@ -58,13 +58,25 @@ lemma void u_integer_limits(unsigned int *p);
     requires [?f]u_integer(p, ?v);
     ensures [f]u_integer(p, v) &*& p > (unsigned int *)0 &*& p + 1 <= (unsigned int *)UINTPTR_MAX &*& 0 <= v &*& v <= UINT_MAX;
 
+lemma void u_integer_unique(unsigned int *p);
+    requires [?f]u_integer(p, ?v);
+    ensures [f]u_integer(p, v) &*& f <= 1;
+
 lemma void short_integer_limits(short *p);
     requires [?f]short_integer(p, ?v);
     ensures [f]short_integer(p, v) &*& p > (short *)0 &*& p + 1 <= (short *)UINTPTR_MAX &*& SHRT_MIN <= v &*& v <= SHRT_MAX;
 
+lemma void short_integer_unique(short *p);
+    requires [?f]short_integer(p, ?v);
+    ensures [f]short_integer(p, v) &*& f <= 1;
+
 lemma void u_short_integer_limits(unsigned short *p);
     requires [?f]u_short_integer(p, ?v);
     ensures [f]u_short_integer(p, v) &*& p > (unsigned short *)0 &*& p + 1 <= (unsigned short *)UINTPTR_MAX &*& 0 <= v &*& v <= USHRT_MAX;
+
+lemma void u_short_integer_unique(unsigned short *p);
+    requires [?f]u_short_integer(p, ?v);
+    ensures [f]u_short_integer(p, v) &*& f <= 1;
 
 lemma void pointer_distinct(void *pp1, void *pp2);
     requires pointer(pp1, ?p1) &*& pointer(pp2, ?p2);
